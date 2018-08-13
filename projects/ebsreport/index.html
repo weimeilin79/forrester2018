@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="UTF-8">
+	  <link rel="stylesheet" type="text/css" href="/node_modules/patternfly/dist/css/patternfly.css">
+	  <link rel="stylesheet" type="text/css" href="/node_modules/patternfly/dist/css/patternfly-additions.css">
+	</head>
+  
+	<style>
+			.footer {
+			   border-top: 1px solid #D5D5D5;
+			   left: 0;
+			   bottom: 0;
+			   width: 100%;
+			   text-align: center;
+			   line-height: 15px;
+				 padding-bottom: 28px;
+				 padding-top: 28px;
+				 font-size: 10px;
+			}
+	</style>
+	
+	<body>
+		
+		<nav class="navbar navbar-default navbar-pf" role="navigation">
+		  <div class="navbar-header">
+		  	<a class="navbar-brand" id="logo" >
+		       <img src="/images/shopping-icon.png" alt="BestMart Sales Dashboard" /> 
+		    </a> 
+		  	<a class="navbar-brand"  title="open interface project"> BestMart | Sales Dashboard</a>
+		  </div>
+	  </nav>
+  <div class="container">
+  	
+  	<h1>Channel Overview</h1>
+		<div class="row row-cards-pf">
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-6">
+				<div class="card-pf">
+				  <div class="card-pf-heading">
+				    <h2 class="card-pf-title" id="storewebtitle" />
+				  </div>
+				  <div class="card-pf-body">
+				    <p><div id="donut-chart-storeweb" class="example-donut-chart"></div></p>
+				  </div>
+				</div>
+			</div>
+			
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-6">
+				<div class="card-pf">
+				  <div class="card-pf-heading">
+				    
+				    <h2 class="card-pf-title" id="fivemintitle" />
+				  </div>
+				  <div class="card-pf-body">
+				    <p><div id="donut-chart-fivemins" class="example-donut-chart-right-legend"></div></p>
+				  </div>
+				</div>
+			</div>
+		</div><!-- /row -->
+		
+		<h1>Sales trends</h1>
+		<div id="line-chart-3" class="line-chart-pf"></div>
+		
+		
+		<h1>Warehouse Inventory Overview</h1>
+		<div class="container-fluid container-cards-pf">
+		
+        <div class="row row-cards-pf">
+        	<div class="col-xs-6 col-sm-4 col-md-4">
+	            <div class="card-pf">
+							  <div class="card-pf-heading">
+							    <h2 class="card-pf-title">
+							      Warehouse Zone A
+							    </h2>
+							  </div>
+							  <div class="card-pf-body" id="warehouseA" />
+							</div>
+	        </div><!-- /col -->
+	      </div><!-- /row -->
+          
+        <div class="row row-cards-pf">
+          <div class="col-xs-6 col-sm-4 col-md-4">
+            <div class="card-pf">
+						  <div class="card-pf-heading">
+						    <h2 class="card-pf-title">
+						      Warehouse Zone B
+						    </h2>
+						  </div>
+						  <div class="card-pf-body" id="warehouseB" />
+						</div>
+          </div><!-- /col -->
+        </div><!-- /row -->
+        
+        <div class="row row-cards-pf">  
+          <div class="col-xs-6 col-sm-4 col-md-4">
+            <div class="card-pf">
+						  <div class="card-pf-heading">
+						    <h2 class="card-pf-title">
+						      Warehouse Zone C
+						    </h2>
+						  </div>
+						  <div class="card-pf-body" id="warehouseC" />
+						</div>
+          </div><!-- /col -->	
+        </div><!-- /row -->	
+	        
+       
+		</div>
+
+		<BR/>
+		<BR/>
+		   
+		
+  </div><!-- /container -->
+
+  <script src="/node_modules/angular/angular.js"></script>
+  <script src="/node_modules/jquery/dist/jquery.js"></script>
+  <script src="/node_modules/patternfly/dist/js/patternfly.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/node_modules/jquery-match-height/dist/jquery.matchHeight-min.js"></script>   
+  <script src="/node_modules/c3/c3.min.js"></script>
+	<script src="/node_modules/d3/d3.min.js"></script>
+	<script src="script.js"></script>
+	
+
+  
+	<script>
+		
+		$(document).ready(function() {
+			
+			//====LINE CHART ====//
+		  function callLineChart() {
+		  	var lineChartDataColumns = [];
+		  	var c3ChartDefaults = $().c3ChartDefaults();
+	  		
+			  var lineChartConfig = c3ChartDefaults.getDefaultLineConfig();
+	  		lineChartConfig.bindto = '#line-chart-3';
+	  
+			  $.ajax({
+			  	type: 'GET',
+			  	url: 'http://bestmart-order-bestmart.apps.662a.openshift.opentlc.com/product/fiveminstats',
+			  	data: $(this).serialize(),
+			  	dataType: 'json',
+			  	success: function (data) {
+			  					//$('#rowlist').empty();
+			  					
+			  	        $.each(data, function (index, value) {
+			  	        	var resultArray = data[index];
+			  	        	resultArray.unshift(index);
+									  lineChartDataColumns.push(resultArray);    
+									});
+									
+	  							//console.log('lineChartDataColumns  B4->'+lineChartDataColumns); 
+	  							 
+									lineChartConfig.data = {
+								    columns: lineChartDataColumns,
+								    type: 'line'
+								  };
+									var lineChart = c3.generate(lineChartConfig);
+			  	       	//interval = setTimeout(callLineChart, 10000);   
+			  	}
+			  });
+			}
+			
+			
+			//====Warehouse CHART ====//
+			
+			function callWarehouseChart(locationid) {
+		  	
+			  $.ajax({
+			  	type: 'GET',
+			  	url: 'http://bestmart-inventory-bestmart.apps.662a.openshift.opentlc.com/inventory/location/'+locationid,
+			  	data: $(this).serialize(),
+			  	dataType: 'json',
+			  	success: function (data) {
+			  					var warehouseCardName = "#warehouse"+locationid;
+			  	       	
+			  					$(warehouseCardName).empty();
+			  					
+			  					var progressbarString="";
+			  	        $.each(data, function (index, value) {
+			  	        	var resultArray = data[index];
+			  	        	progressbarString +=progressbar(data[index]["PRODUCTCATEGORY"],parseInt(data[index]["MAXHOLDUNIT"]),parseInt(data[index]["STOCKUNIT"]));
+									     
+									});
+									
+									console.log("warehouseCardName: "+warehouseCardName);
+									
+									$(warehouseCardName).append(progressbarString);		 
+							
+									
+			  	       	//interval = setTimeout(callWarehouseChart(locationid), 100000);   
+			  	}
+			  });
+			}
+			
+			//====Warehouse CHART ====//
+			
+			function callChannelChart(channelname) {
+				var c3ChartDefaults = patternfly.c3ChartDefaults();
+				
+				var channelUrl = 'http://bestmart-order-bestmart.apps.662a.openshift.opentlc.com/product/channel';
+				var channelTitleId = '#storewebtitle';
+				var channelTitle = 'Store and Website';
+				if("fivemins" == channelname){
+					channelUrl = 'http://bestmart-fivemins-bestmart.apps.662a.openshift.opentlc.com/fivemins/channel';
+					channelTitleId = '#fivemintitle';
+					channelTitle = 'Five Minutes Pit Stop';
+				}
+				
+			  
+				
+				var donutChartConfig = c3ChartDefaults.getDefaultRelationshipDonutConfig();
+		  	donutChartConfig.bindto = '#donut-chart-'+channelname;
+		  	donutChartConfig.tooltip = {show: true};
+		  	donutChartConfig.legend = {
+		    	show: true,
+		    	position: 'right'
+		  	};
+		  	donutChartConfig.tooltip = {
+		    	contents: $().pfDonutTooltipContents
+		  	};
+		  	
+		  	
+		  	
+			  $.ajax({
+			  	type: 'GET',
+			  	url: channelUrl,
+			  	data: $(this).serialize(),
+			  	dataType: 'json',
+			  	success: function (data) {
+			  					var resultData = [];
+			  	        $.each(data, function (index, value) {
+			  	        	var resultArray = [];
+			  	        	console.log(data[index]);
+			  	        	resultArray.push(data[index]['productcategory']);
+			  	        	resultArray.push(data[index]['amt']);
+			  	        	resultData.push(resultArray);  
+									});
+	    
+									var donutData = {
+								    type : 'donut',
+								    columns: resultData,
+								    onclick: function (d, i) { console.log("onclick", d, i); },
+								    onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+								    onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+								  };
+								  
+			  					donutChartConfig.data = donutData;
+			  
+									var donutChartNoLegend = c3.generate(donutChartConfig);
+		  						$().pfSetDonutChartTitle("#donut-chart-"+channelname, resultData.length, "Category");
+		  						
+		  						if(resultData.length > 0){
+		  							$(channelTitleId).empty();
+										$(channelTitleId).append(channelTitle);
+		  						}
+
+			  	       	//intervalA = setTimeout(callWarehouseChart('A'), 100000);  
+			  	       	//intervalB = setTimeout(callWarehouseChart('B'), 100000);   
+			  	       	//intervalC = setTimeout(callWarehouseChart('C'), 100000);    
+			  	}
+			  });
+			  
+			  
+			}
+			
+			function progressbar(titleString, maxstock, currentstock){
+				var usedpercent = parseInt(currentstock/maxstock * 100);
+				var unusedpercent = 100-usedpercent;
+				
+				console.log("titleString:["+titleString+"] maxstock:["+maxstock+"] currentstock:["+currentstock+"] usedpercent:["+usedpercent+"] unusedpercent:["+unusedpercent+"]");
+				
+				
+				var progressbarString= "<div class='progress-description'>"+titleString+"</div>";
+				progressbarString += "<div class='progress progress-label-top-right'>";
+				progressbarString += "  <div class='progress-bar' role='progressbar' aria-valuenow='95' aria-valuemin='0' aria-valuemax='"+maxstock+"' style='width: "+usedpercent+"%;'  data-toggle='tooltip' title='"+usedpercent+"% Used'>";
+				progressbarString += "    <span><strong>"+usedpercent+" %</strong> Used</span>";
+				progressbarString += "  </div>";
+				progressbarString += "  <div class='progress-bar progress-bar-remaining' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='"+currentstock+"' style='width: "+unusedpercent+"%;' data-toggle='tooltip' title='"+unusedpercent+"% Available'></div>";
+				progressbarString += "</div>";
+				
+				return progressbarString;
+						    
+				  	
+			}
+			
+			
+			callChannelChart("storeweb");
+			callChannelChart("fivemins");
+			
+			callLineChart();
+			callWarehouseChart('A');
+			callWarehouseChart('B');
+			callWarehouseChart('C');
+			//setTimeout(function () { location.reload(1); }, 5000);
+		});
+	</script>
+
+
+  <footer class="footer">
+     <a href="https://developers.redhat.com/products/fuse/overview/"><img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/RH_Fuse_RGB_Black.png" alt="Fuse" width="40"/></a>
+     Demo
+     <BR/>
+     Contact <a href="mailto:clin@redhat.com?Subject=ForresterDemo%20Question" target="_top">Christina Lin</a> for any questions.
+              
+  </footer>
+</body>
+</html>
