@@ -1,0 +1,75 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tyxon Foods Inc",
+    "description": "A Supplier for BestMart",
+    "version": "1.0.0"
+  },
+  "host" : "0.0.0.0:8080",
+  "basePath" : "/tyxon",
+  "schemes" : [ "http" ],
+  "paths": {
+    "/order": {
+      "put": {
+        "description": "Order for Delivery",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Order Item Detail",
+            "schema": {
+              "$ref": "#/definitions/OrderItem"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "OrderItem": {
+      "title": "Root Type for OrderItem",
+      "description": "The root of the OrderItem type's schema.",
+      "type": "object",
+      "properties": {
+        "itemid": {
+          "format": "int32",
+          "description": "Item Id",
+          "type": "integer"
+        },
+        "itemname": {
+          "description": "Item Name",
+          "type": "string"
+        },
+        "quantity": {
+          "format": "int32",
+          "description": "Order quantity",
+          "type": "integer"
+        },
+        "delivery": {
+          "description": "Delivery Details",
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "date": {
+              "format": "date",
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            }
+          }
+        },
+        "placeby": {
+          "description": "Ordering partner",
+          "type": "string"
+        },
+        "associate-tracker-id": {
+          "description": "tracker id from partner",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
