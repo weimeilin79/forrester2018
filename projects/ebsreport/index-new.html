@@ -64,7 +64,52 @@
 		
 		<h1>Partner Overview</h1>
 		<div class="container-fluid container-cards-pf">
-		
+				
+				<div class="row row-cards-pf">
+        	<div class="col-xs-12 col-sm-12 col-md-12">
+	            <div class="card-pf">
+							  <div class="card-pf-heading">
+							    <h2 class="card-pf-title">
+							      Partner Ordering System
+							    </h2>
+							  </div>
+							  <div class="card-pf-body" id="partnerorder" >
+							  	<form class="form-horizontal">
+									  <div class="form-group">
+									    <label class="col-sm-1 control-label" for="textInput-markup">Partner</label>
+									    <div class="col-sm-2">
+									      <select class="selectpicker" id="order-partner">
+												  <option value="A">Gameworld Distributor</option>
+												  <option value="B">Tyxon Foods Inc</option>
+												  <option value="C">Red Dot Electric Co.</option>
+												</select>
+									    </div>
+									    <label class="col-sm-2 control-label" for="textInput-markup">Product ID</label>
+									    <div class="col-sm-2">
+									      <input type="text" id="order-product-id" class="form-control">
+									    </div>
+									    <label class="col-sm-1 control-label" for="textInput-markup">Quantity</label>
+									    <div class="col-sm-1">
+									      <input type="text" id="order-product-quantity" class="form-control">
+									    </div>
+									    <label class="col-sm-1 control-label" for="textInput-markup">Amount</label>
+									    <div class="col-sm-2">
+									      <input type="text" id="order-product-amt" class="form-control">
+									    </div>
+									  </div>
+									  <div class="form-group">
+										    <div class="col-sm-11" > </div>
+										    <div class="col-sm-1">
+										      <button class="btn btn-primary" id="orderbutton" type="button">Order</button>
+										    </div>
+									  </div>
+									  
+									</form>
+							  </div>
+							</div>
+	        </div><!-- /col -->
+	      </div><!-- /row -->
+	      
         <div class="row row-cards-pf">
         	<div class="col-xs-6 col-sm-4 col-md-4">
 	            <div class="card-pf">
@@ -117,14 +162,59 @@
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/patternfly/dist/js/patternfly.min.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/node_modules/bootstrap-select/js/bootstrap-select.js"></script>
   <script src="/node_modules/jquery-match-height/dist/jquery.matchHeight-min.js"></script>   
   <script src="/node_modules/c3/c3.min.js"></script>
 	<script src="/node_modules/d3/d3.min.js"></script>
+	<script src="mqtt/mqttws31.js" type="text/javascript"></script>
+  
 	<script src="script.js"></script>
 	
 
   
 	<script>
+		// Create a client instance
+		client = new Paho.MQTT.Client('broker-amq-mqtt.bestmart.svc', 1883, "clientId");
+
+		function MQClientSetup(){
+			// set callback handlers
+			client.onConnectionLost = onConnectionLost;
+			client.onMessageArrived = onMessageArrived;
+			
+			// connect the client
+			client.connect({onSuccess:onConnect});	
+		}
+		
+		
+		// called when the client connects
+		function onConnect() {
+		  // Once a connection has been made, make a subscription and send a message.
+		  console.log("onConnect");
+		  client.subscribe("notification");
+		  
+		}
+		
+		// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+		  if (responseObject.errorCode !== 0) {
+		    console.log("onConnectionLost:"+responseObject.errorMessage);
+		  }
+		}
+		
+		// called when a message arrives
+		function onMessageArrived(message) {
+		  console.log("onMessageArrived:"+message.payloadString);
+		}
+		
+		//Sending message
+		function sendMessagetoNotification(topicname, msg){
+			message = new Paho.MQTT.Message(msg);
+		  message.destinationName = topicname;
+		  
+		  client.send(message);	
+		}
+		
+		
 		
 		$(document).ready(function() {
 			
@@ -138,7 +228,7 @@
 	  
 			  $.ajax({
 			  	type: 'GET',
-			  	url: 'http://bestmart-orderdashboard-bestmart.apps.662a.openshift.opentlc.com/product/fiveminstats',
+			  	url: 'http://bestmart-orderdashboard.bestmart.svc/product/fiveminstats',
 			  	data: $(this).serialize(),
 			  	dataType: 'json',
 			  	success: function (data) {
@@ -171,7 +261,7 @@
 		  	var MAXSHOWAMT = 10000;
 			  $.ajax({
 			  	type: 'GET',
-			  	url: 'http://bestmart-partners-bestmart.apps.662a.openshift.opentlc.com/partners/location/'+locationid,
+			  	url: 'http://bestmart-partners.bestmart.svc/partners/location/'+locationid,
 			  	data: $(this).serialize(),
 			  	dataType: 'json',
 			  	success: function (data) {
@@ -201,11 +291,11 @@
 			function callChannelChart(channelname) {
 				var c3ChartDefaults = patternfly.c3ChartDefaults();
 				
-				var channelUrl = 'http://bestmart-orderdashboard-bestmart.apps.662a.openshift.opentlc.com/product/channel';
+				var channelUrl = 'http://bestmart-orderdashboard.bestmart.svc/product/channel';
 				var channelTitleId = '#storewebtitle';
 				var channelTitle = 'Store, Website and Tigers';
 				if("fivemins" == channelname){
-					channelUrl = 'http://bestmart-fivemins-bestmart.apps.662a.openshift.opentlc.com/fivemins/channel';
+					channelUrl = 'http://bestmart-fivemins.bestmart.svc/fivemins/channel';
 					channelTitleId = '#fivemintitle';
 					channelTitle = 'Five Minutes Pit Stop';
 				}
@@ -287,6 +377,39 @@
 				  	
 			}
 			
+			$( "#orderbutton" ).click(function() {
+			  //console.log( "Sending Message "+ );
+			  
+			  orderpartner = $("#order-partner option:selected").val();
+			  itemid = $("#order-product-id").val();
+			  orderamt = $("#order-product-amt").val();
+			  orderquantity = $("#order-product-quantity").val();
+			  
+			  if(itemid == null || itemid == ''  || orderamt == null| orderamt == '' || orderquantity == null || orderquantity == ''){
+			  	
+			  	alert("Please enter all value to submit partner order !");	
+			  }else{
+			  	
+			  	
+			  notiJson = '{'+
+					    '"PartnerName": "'+orderpartner+'",'+
+					    '"item": {'+
+					    '	"id": '+itemid+''+
+					    '},'+
+					    '"quantity": '+orderquantity+','+
+					    '"orderamt": '+orderamt+','+
+					    '"delivery": {'+
+					    '    "location": "LocationB",'+
+					    '    "date": "2018-09-27"'+
+					    '},'+
+					    '"preferdeliverymethod": "UPS"'+
+					'}';
+			  	//notiJson = '{"partnerid":"'+orderpartner+'", "itemid":'+itemid+', "orderamt":'+orderamt+', "quantity":'+orderquantity+'}';
+			  	sendMessagetoNotification(orderpartner, notiJson);
+				}
+				
+			});
+			
 			
 			callChannelChart("storeweb");
 			callChannelChart("fivemins");
@@ -295,7 +418,11 @@
 			callPartnerChart('A');
 			callPartnerChart('B');
 			callPartnerChart('C');
+			MQClientSetup();
+			
 			//setTimeout(function () { location.reload(1); }, 5000);
+			
+			 $('.selectpicker').selectpicker();
 		});
 	</script>
 
