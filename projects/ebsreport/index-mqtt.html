@@ -84,7 +84,10 @@
 			client.onMessageArrived = onMessageArrived;
 			
 			// connect the client
-			client.connect({onSuccess:onConnect});	
+			client.connect({
+				onSuccess:onConnect,
+				userName:'amq',
+				password:'topSecret'});	
 		}
 		
 		
