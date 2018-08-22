@@ -36,6 +36,22 @@
 							  <div class="card-pf-body" id="partnerorder" >
 							  	<form class="form-horizontal">
 									  <div class="form-group">
+									    <label class="col-sm-1 control-label" for="textInput-markup">AMQ HOST</label>
+									    <div class="col-sm-2">
+									      <input type="text" id="brokerhost" class="form-control">
+									    </div>
+									  </div>
+									  <div class="form-group">
+										    <div class="col-sm-1" > </div>
+										    <div class="col-sm-2">
+										      <button class="btn btn-primary" id="connect" type="button">Connect</button>
+										    </div>
+									  </div>
+									</form>
+							  </div>
+							  <div class="card-pf-body" id="partnerorder" >
+							  	<form class="form-horizontal">
+									  <div class="form-group">
 									    
 									    <label class="col-sm-1 control-label" for="textInput-markup">Order ID</label>
 									    <div class="col-sm-2">
@@ -76,7 +92,7 @@
   
 	<script>
 		// Create a client instance
-		client = new Paho.MQTT.Client('192.199.0.222', 1883, "clientId");
+		
 
 		function MQClientSetup(){
 			// set callback handlers
@@ -126,7 +142,7 @@
 			
 			
 			$( "#notify" ).click(function() {
-			  	orderid = $("#orderid").val();
+					orderid = $("#orderid").val();
 					msg = '{"orderid":'+orderid+'}';
 					console.log('send --> '+msg);
 			  	sendMessagetoNotification('notification', msg);
@@ -134,8 +150,13 @@
 			});
 			
 			
+			$( "#connect" ).click(function() {
+					brokerhost = $("#brokerhost").val();
+					client = new Paho.MQTT.Client(brokerhost, 1883, "clientId");
+			  	MQClientSetup();
+			});
 			
-			MQClientSetup();
+			
 			
 			
 			
