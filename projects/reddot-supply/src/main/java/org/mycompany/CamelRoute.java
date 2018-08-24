@@ -37,7 +37,11 @@ public class CamelRoute extends RouteBuilder {
 		
 		
 		from("direct:order1")
-			.bean(SupplyProcess.class, "start")
+			.log("itemid --> ${body[itemid]} ${body[amt]} ")
+			.setHeader("itemid").simple("${body[itemid]}")
+			.setHeader("amt").simple("${body[amt]}")
+			.to("sql:SELECT update_inventory('C',:#${body[itemid]} ,:#${body[amt]})?dataSource=dataSource")
+			.bean(SupplyProcess.class, "start(${headers.itemid}, ${headers.amt})")
 			;
 		
 		

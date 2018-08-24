@@ -210,6 +210,7 @@
 		function sendMessagetoNotification(topicname, msg){
 			message = new Paho.MQTT.Message(msg);
 		  message.destinationName = topicname;
+		  console.log("topicname-> "+topicname);
 		  
 		  client.send(message);	
 		}
@@ -394,7 +395,8 @@
 			  notiJson = '{ "orderid":1,'+
 					    '"PartnerName": "'+orderpartner+'",'+
 					    '"item": {'+
-					    '	"id": '+itemid+''+
+					    '	"id": '+itemid+','+
+					    '	"name": "productname"'+
 					    '},'+
 					    '"quantity": '+orderquantity+','+
 					    '"orderamt": '+orderamt+','+
@@ -405,6 +407,20 @@
 					    '"preferdeliverymethod": "UPS"'+
 					'}';
 			  	//notiJson = '{"partnerid":"'+orderpartner+'", "itemid":'+itemid+', "orderamt":'+orderamt+', "quantity":'+orderquantity+'}';
+			  	console.log(notiJson);
+			  	
+			  	if('B'==orderpartner ){
+			  		
+			  		orderpartner = 'tyxon';
+			  		
+			  	} else if ('C'==orderpartner){
+			  		
+			  		orderpartner = 'reddot';
+			  		
+			  	}else{
+			  		orderpartner = 'partner'+orderpartner;
+			  	}
+			  	
 			  	sendMessagetoNotification(orderpartner, notiJson);
 				}
 				

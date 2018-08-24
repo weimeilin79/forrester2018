@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: bank-credit
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: bank-credit@sha256:fa4a7def906bc0951b9e3c34b83b10fecf13531ee47bd19561e455fad78f6304
+        namespace: bestmart
+      name: latest

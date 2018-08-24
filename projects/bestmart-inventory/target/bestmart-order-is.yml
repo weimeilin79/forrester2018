@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: bestmart-order
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: bestmart-order@sha256:6cdb8158c082b2431e26ab9ee7c6b0cf0b3e8c0515a858045b352cdac28290d5
+        namespace: bestmart
+      name: latest

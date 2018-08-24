@@ -38,7 +38,7 @@ INSERT INTO PRODUCTCATEGORY (categoryid, productcategory) VALUES ( 'E' , 'Clothi
 CREATE TABLE PRODUCT(
 		productid INTEGER NOT NULL,
 	  categoryid CHAR(1) NOT NULL,
-		productname VARCHAR(40) NOT NULL
+		productname VARCHAR(200) NOT NULL
 );
 
 
@@ -70,6 +70,16 @@ INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (36 ,'A', 'Cable
 INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (37 ,'A', 'Accessories'			);
 INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (38 ,'A',  'TV & Video'				);
 
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (50  ,'A', 'Sceptre 75 Class 4K (2160P) LED TV (U750CV-U)');
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (51  ,'B', 'Furniture of America Contemporary Multiple Storage TV Stand');
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (52  ,'A', 'VIZIO 42 5.1ch Sound Bar System (S4251w-B4)');
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (53  ,'B', 'Best Choice Products Executive Swivel Massage Recliner w/ Control, 5 Heat & Massage Modes, 2 Cup Holders, 92lbs (Brown)');
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (54  ,'A', '1.7 cu ft Refrigerator with Camouflage-Wrapped Door');
+INSERT INTO PRODUCT (productid, categoryid, productname) VALUES (55  ,'B', 'Pabst Blue Ribbon Beer (6 pack)');
+
+
+
+
 **/
 
 /**
@@ -84,8 +94,26 @@ CREATE OR REPLACE FUNCTION add_product(orderidvar INTEGER, productidvar INTEGER,
 				AND P.productid = productidvar;
     END;
     $$ LANGUAGE plpgsql;
-    
-SELECT add_product(1, 11, 'GETTLE', 40);
+
+CREATE OR REPLACE FUNCTION update_inventory(partneridvar VARCHAR(1), productidvar INTEGER, orderamtvar INTEGER) 
+    RETURNS void AS $$
+    BEGIN
+      UPDATE PARTNERS SET 
+				orderamt = orderamt+orderamtvar
+			WHERE partnerid = partneridvar
+			AND productid = productidvar; 
+		IF NOT FOUND THEN
+			INSERT INTO PARTNERS
+			SELECT partneridvar, productidvar, B.productcategory, A.productname, orderamtvar
+			FROM PRODUCT A, 
+			PRODUCTCATEGORY B
+			WHERE A.categoryid = B.categoryid
+			AND A.productid = productidvar;
+		END IF;
+    END;
+$$ LANGUAGE plpgsql;        
+ 
+SELECT update_inventory('C',34,200);
 **/
 
 

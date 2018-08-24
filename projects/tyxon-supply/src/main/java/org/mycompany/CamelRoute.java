@@ -1,6 +1,7 @@
 package org.mycompany;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class CamelRoute extends RouteBuilder {
 	        .apiProperty("api.version", "1.0.0");
 
 		rest()
-        .put("/order/v1")
+        .put("/order")
             .description("Order for Delivery version one")
             .param()
                 .name("body")
@@ -33,22 +34,19 @@ public class CamelRoute extends RouteBuilder {
                 .description("Order Item Detail")
             .endParam()
             .to("direct:order1")
-        .put("/order/v2")
-            .description("Order for Delivery version two")
-            .param()
-                .name("body")
-                .type(RestParamType.body)
-                .required(false)
-                .description("Order Item Detail")
-            .endParam()
-            .to("direct:order2");
+        ;
 		
 		//Gives Back Date
 		from("direct:order1")
-		.bean(SupplyProcess.class, "start");
+			//.unmarshal().json(JsonLibrary.Jackson)
+			.log("itemid --> ${body[itemid]} ${body[amt]} ")
+			.setHeader("itemid").simple("${body[itemid]}")
+			.setHeader("amt").simple("${body[amt]}")
+			.to("sql:SELECT update_inventory('B', :#${body[itemid]}, :#${body[amt]})?dataSource=dataSource")
+			.bean(SupplyProcess.class, "start(${headers.itemid}, ${headers.amt})")
+		;
+				
 		
-		from("direct:order2")
-			.bean(SupplyProcess.class, "start");
        
 		
 	}

@@ -1,56 +1,13 @@
-DROP TABLE IF EXISTS PARTNERS;
-
-CREATE TABLE PARTNERS(
-	partnerid CHAR(1) NOT NULL, 
-	productid INTEGER NOT NULL,
-	productname VARCHAR(40) NOT NULL,
-	orderamt INTEGER NOT NULL
-);
-
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',1, 'Far Cry 5', 890);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',2, 'Halo 5: Guardians', 700);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',3, 'Cars 3: Driven to Win', 200);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',4, 'The Legend of Zelda', 1700);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',5, 'Minecraft', 1000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',6, 'RIKE', 6000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',7, 'UPPER ARMOUR', 2100);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',8, 'LEEBOK', 2200);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',9, 'EDIDAS', 2800);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('A',10, 'BANANA', 8000);
-
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',11, 'GETTLE', 2300);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',12, 'Kringles', 1300);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',13, 'Rerrs', 2300);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',14, 'Rays', 2300);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',15, 'Luffles', 1700);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',16, 'Vitamin B12', 400);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',17, 'Vitamin D3', 1600);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',18, 'Multi-vite', 4000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',19, 'MCT oil', 700);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('B',20, 'Energy Metabolism', 800);
-
-
-
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',31, 'HELL', 6000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',32, 'LELOVO', 5000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',33, 'ATUT', 5000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',34, 'BANANA', 9000);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',35, 'FP', 3500);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',36, 'Cable', 200);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',37, 'Accessories', 300);
-INSERT INTO PARTNERS(partnerid, productid, productname, orderamt ) VALUES ('C',38, 'TV & Video', 6000);
-
-
-
-
 /**
  * 
- * 
+
+ DROP TABLE IF EXISTS PARTNERS;
+ 
  CREATE TABLE PARTNERS(
 	partnerid CHAR(1) NOT NULL, 
 	productid INTEGER NOT NULL,
 	productcategory VARCHAR(40) NOT NULL,
-	productname VARCHAR(40) NOT NULL,
+	productname VARCHAR(100) NOT NULL,
 	orderamt INTEGER NOT NULL
 );
 INSERT INTO PARTNERS(partnerid, productid, productcategory, productname, orderamt ) VALUES ('A',1,'Toys & Video Games', 'Far Cry 5', 890);

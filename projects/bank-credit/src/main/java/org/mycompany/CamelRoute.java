@@ -20,7 +20,7 @@ public class CamelRoute extends RouteBuilder {
 		
 		
 		from("jms:creditlimit")
-			
+			.log("Banking start --> ${body}")
 			.log("${body[0][CREDITCARDINFO]}")
 			.to("sql:select * from CREDITLIMIT WHERE creditcardinfo =:#${body[0][CREDITCARDINFO]}")
 			.choice()

@@ -35,7 +35,30 @@ INSERT INTO PREORDER(orderid, productid, productname, productcategory, orderamt,
 INSERT INTO PREORDER(orderid, productid, productname, productcategory, orderamt, pickupdate) VALUES (5,  54, '1.7 cu ft Refrigerator with Camouflage-Wrapped Door', 'Electronics & Office', 175, '2018-09-27 00:00:00');
 INSERT INTO PREORDER(orderid, productid, productname, productcategory, orderamt, pickupdate) VALUES (5,  55, 'Pabst Blue Ribbon Beer (6 pack)', 'Food, Household & Pets', 7, '2018-09-27 00:00:00');
 
+
+CREATE TABLE CUST_PREORDER(
+	custid INTEGER NOT NULL,
+	orderid INTEGER NOT NULL
+);
+
+INSERT INTO CUST_PREORDER(custid, orderid) VALUES (1, 5);
+INSERT INTO CUST_PREORDER(custid, orderid) VALUES (2, 1);
+INSERT INTO CUST_PREORDER(custid, orderid) VALUES (3, 2);
+INSERT INTO CUST_PREORDER(custid, orderid) VALUES (4, 3);
+INSERT INTO CUST_PREORDER(custid, orderid) VALUES (4, 4);
+
+CREATE TABLE CUST_PHONER(
+	custid INTEGER NOT NULL,
+	phone varchar(20) NOT NULL
+);
+
+INSERT INTO CUST_PHONER(custid, phone) VALUES (1, '17813867022');
+
 */
+
+
+
+
 
 /*
 

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: tyxon-supply
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: tyxon-supply@sha256:877302d792dcf43b9d48a9e99a10dc55589164795335998dfbd5251e3403ae6d
+        namespace: tyxon
+      name: latest

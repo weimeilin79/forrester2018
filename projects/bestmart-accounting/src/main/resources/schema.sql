@@ -11,3 +11,9 @@ INSERT INTO CUSTOMER ( custid, custname, creditcardinfo, point) VALUES(1,'Christ
 INSERT INTO CUSTOMER ( custid, custname, creditcardinfo, point) VALUES(2,'Christian Posta','48357349584739543',15);
 
 
+ CREATE TABLE CREDITLIMIT(
+	creditcardinfo VARCHAR(40) NOT NULL,
+	creditlimit INTEGER NOT NULL
+);
+
+INSERT INTO CREDITLIMIT (creditcardinfo,creditlimit) VALUES ('3424546756454543',3000);

@@ -57,37 +57,24 @@
       <artifactId>camel-swagger-java-starter</artifactId>
     </dependency>
     
-    <!-- Part Two -->
+   <!-- Part Two -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
 	</dependency>
-	
 	<dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.197</version>
-      <scope>runtime</scope>
-    </dependency>
+		<groupId>org.postgresql</groupId>
+  		<artifactId>postgresql</artifactId>
+		<version>42.2.2</version>
+		<scope>runtime</scope>
+	</dependency>
     
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-sql-starter</artifactId>
     </dependency>
     
-    <!-- Part Two --> 
-   	<dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-activemq</artifactId>
-    </dependency>
-    
-    <dependency>
-	    <groupId>org.apache.activemq</groupId>
-	    <artifactId>activemq-camel</artifactId>
-	    <version>5.11.0.redhat-630347</version>
-	</dependency>
 
-    
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-gson-starter</artifactId>
