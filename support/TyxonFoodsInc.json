@@ -1,0 +1,119 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tyxon Foods Inc",
+    "description": "A Supplier for BestMart",
+    "version": "1.0.0"
+  },
+  "host": "tyxon-supply-suppliers.apps.662a.openshift.opentlc.com",
+  "basePath": "/tyxon",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/order": {
+      "put": {
+        "summary": "Placing order",
+        "description": "Placing order version One",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderItemv1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DONE",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "OrderItemv1": {
+      "title": "Root Type for OrderItemv1",
+      "description": "The root of the OrderItemv1 type's schema.",
+      "type": "object",
+      "properties": {
+        "itemid": {
+          "format": "int32",
+          "description": "Item ID",
+          "type": "integer"
+        },
+        "itemname": {
+          "description": "Item Name",
+          "type": "string"
+        },
+        "quantity": {
+          "format": "int32",
+          "description": "Quantity in Units",
+          "type": "integer"
+        },
+        "amt": {
+          "format": "int32",
+          "description": "Amount Paid",
+          "type": "integer"
+        },
+        "delivery": {
+          "description": "Delivery Details",
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "date": {
+              "format": "date",
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+          }
+        },
+        "placeby": {
+          "description": "Order Company",
+          "type": "string"
+        },
+        "associate_tracker_id": {
+          "format": "int32",
+          "description": "Order ID",
+          "type": "integer"
+        }
+      }
+    },
+    "Response": {
+      "title": "Root Type for Response",
+      "description": "The root of the Response type's schema.",
+      "required": [
+        "amt",
+        "partnerid",
+        "productid"
+      ],
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status of the Order",
+          "type": "string"
+        },
+        "partnerid": {
+          "description": "Partner ID ",
+          "type": "string"
+        },
+        "productid": {
+          "description": "Order Product ID",
+          "type": "integer"
+        },
+        "amt": {
+          "description": "Order Amount",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

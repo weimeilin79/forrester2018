@@ -1,0 +1,267 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "BestMart Five Minutes Pit Stop Service",
+    "version": "1.0.0"
+  },
+  "host": "0.0.0.0:8080",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/fivemins/{orderid}": {
+      "get": {
+        "tags": [
+          "fivemins"
+        ],
+        "summary": "Get order by ID",
+        "operationId": "route2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderid",
+            "in": "path",
+            "description": "The ID of the order",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data successfully returned",
+            "schema": {
+              "$ref": "#/definitions/ProductOrder"
+            }
+          }
+        }
+      }
+    },
+    "/fivemins/add": {
+      "put": {
+        "description": "Place Order",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Order Detail Info",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DONE",
+            "schema": {
+              "$ref": "#/definitions/OrderResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "custid",
+            "in": "query",
+            "description": "Customer ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "itemid",
+            "in": "query",
+            "description": "Product ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pickupdate",
+            "in": "query",
+            "description": "Pickup Date",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "orderamt",
+            "in": "query",
+            "description": "Order Total Amount",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DONE",
+            "schema": {
+              "$ref": "#/definitions/OrderResponse"
+            }
+          }
+        }
+      }
+    },
+    "/fivemins/channel": {
+      "get": {
+        "tags": [
+          "fivemins"
+        ],
+        "summary": "Get sum amounts for Channel",
+        "operationId": "route1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Data successfully returned",
+            "schema": {
+              "$ref": "#/definitions/Channel"
+            }
+          }
+        }
+      }
+    },
+    "/fivemins/today": {
+      "get": {
+        "tags": [
+          "fivemins"
+        ],
+        "summary": "Find Today's order",
+        "operationId": "route3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Data successfully returned",
+            "schema": {
+              "$ref": "#/definitions/ProductOrder"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Channel": {
+      "title": "Root Type for Channel",
+      "description": "The root of the Channel type's schema.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productcategory": {
+            "type": "string"
+          },
+          "amt": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ProductOrder": {
+      "title": "Root Type for ProductOrder",
+      "description": "The root of the ProductOrder type's schema.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "orderid": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "productid": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "productname": {
+            "type": "string"
+          },
+          "productcategory": {
+            "type": "string"
+          },
+          "orderamt": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "pickupdate": {
+            "format": "date",
+            "type": "string"
+          },
+          "purchasetime": {
+            "format": "int64",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "Order": {
+      "title": "Root Type for Order",
+      "description": "The root of the Order type's schema.",
+      "type": "object",
+      "properties": {
+        "custid": {
+          "format": "int32",
+          "description": "Customer ID",
+          "type": "integer"
+        },
+        "item": {
+          "description": "Order Item Detail",
+          "type": "object",
+          "properties": {
+            "id": {
+              "format": "int32",
+              "description": "Product ID",
+              "type": "integer"
+            },
+            "name": {
+              "description": "Product Name",
+              "type": "string"
+            }
+          }
+        },
+        "quantity": {
+          "format": "int32",
+          "description": "Order Quantity",
+          "type": "integer"
+        },
+        "orderamt": {
+          "format": "int32",
+          "description": "Total Amount",
+          "type": "integer"
+        },
+        "pickupDate": {
+          "format": "date",
+          "description": "Pick Update",
+          "type": "string"
+        }
+      }
+    },
+    "OrderResponse": {
+      "title": "Root Type for OrderResponse",
+      "description": "The root of the OrderResponse type's schema.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "fivemins",
+      "description": "Dashboard REST service"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  annotations:
+    pipeline.alpha.openshift.io/uses: '[{"name": "pipeline", "kind": "DeploymentConfig"}]'
+  labels:
+    name: pipeline
+    template: pipeline
+  name: pipeline
+spec:
+  nodeSelector: null
+  output: {}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    type: None
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfile: "node('maven') { \n  \n  env.uatnamespace = \"sit\";\n  env.prodnamespace = \"bestmart\";  \n  stage('Code Analysis'){ \n    print 'Code Analysis'\n    sleep 5\n    \n  } \n  \n  stage('Vulnerability Scan'){ \n    print 'Vulnerability Scan'\n    sleep 10\n    \n  }\n  \n  stage('Unit Test'){ \n    print 'Unit Test'\n    sleep 20\n    \n  }\n  \n  stage('build'){ \n    print 'build'\n     \topenshiftBuild(namespace: \"${env.uatnamespace}\",\n        buildConfig: \"bestmart-fivemins\", showBuildLogs: \"true\")\n  }           \n\n  stage('staging') {\n    print 'stage' \n        openshiftDeploy(namespace: \"${env.uatnamespace}\",\n        deploymentConfig: \"bestmart-fivemins\")\n  } \n  \n  stage ('promotionCheck'){ \n      def userInput = input( id: \"userInput\", message: \"Promote to UAT?\", parameters: [ [$class: \"TextParameterDefinition\", defaultValue: \"Comments?\", description: \"comments\", name: \"comments\"] ])  \n      print 'promotionCheck' \n  \t    openshiftTag(namespace: \"${env.uatnamespace}\", sourceStream: \"bestmart-fivemins\",  sourceTag: \"latest\", destinationNamespace: \"${env.prodnamespace}\", destinationStream: \"bestmart-fivemins\", destinationTag:\"latest\")   \n  } \n        \n}"
+    type: JenkinsPipeline
+  triggers:
+  - github:
+      secret: secret101
+    type: GitHub
+  - generic:
+      secret: secret101
+    type: Generic

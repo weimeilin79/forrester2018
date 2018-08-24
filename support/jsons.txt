@@ -1,0 +1,113 @@
+Order
+
+{
+   "orderid":1,
+   "PartnerName":"C",
+   "item":{
+      "id":34
+      "name":"productName"
+   },
+   "quantity":10,
+   "orderamt":2000,
+   "delivery":{
+      "location":"B",
+      "date":"2018-09-18"
+   },
+   "preferdeliverymethod":"UPS"
+}
+
+{
+    "PartnerName": "C",
+    "item": {
+    	"id": 34 
+    },
+    "quantity": 10,
+    "orderamt": 2000,
+    "delivery": {
+        "location": "B",
+        "date": "2018-09-18"
+    },
+    "preferdeliverymethod": "UPS"
+}
+{"custid":1}
+{"orderid":1}
+{ "orderid":1,"PartnerName": "B","item": {	"id": 1, "name":"productname" },"quantity": 2,"orderamt": 33,"delivery": {    "location": "LocationB",    "date": "2018-09-27"},"preferdeliverymethod": "UPS"}
+
+
+INSERT INTO PARTNERS (partnerid, productid, productname, orderamt ) VALUES (:#partnerid, :#productid, :#productname, :#orderamt)
+OrderItemv1
+{
+    "itemid": 1,
+    "quantity": 10,
+    "amt": 3000,
+    "delivery": {
+        "location": "A",
+        "date": "2018-09-18"
+    },
+    "placeby": "Test",
+    "associate_tracker_id": 1
+}
+
+OrderItemv2
+{
+    "itemid": 1,
+    "quantity": 10,
+    "amt": 3000,
+    "delivery": {
+        "location": "A",
+        "date": "2018-09-18"
+    },
+    "method": "UPS",
+    "placeby": "Test",
+    "associate_tracker_id": 1
+}
+
+
+
+{
+	"itemid" : 1,
+	"quantity": 15,
+	"amt": 30,
+	"method": "FEDEX",
+	"class":"ECONOMY",
+	"associate_tracker_id":1 
+}
+
+
+
+
+
+
+
+{
+	"itemid" : 1,
+	"itemname" : "item name",
+	"quantity": 10,
+	"delivery" : {
+		"location":"A",
+		"date" : "2018-09-18"
+	},
+	"placeby": "",
+	"associate_tracker_id":1 
+}
+
+
+ORDER
+
+{
+    "custid": 1,    
+    "item": {
+    	"id": 34 ,
+    	"name": "BANANA"
+    },
+    "quantity": 1,
+    "orderamt": 2000,
+    "pickupDate": "2018-09-17"
+}
+
+Order Response
+
+
+{
+"status": "DONE"
+}
