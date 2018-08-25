@@ -229,7 +229,7 @@
 	  
 			  $.ajax({
 			  	type: 'GET',
-			  	url: 'http://bestmart-orderdashboard-bestmart.apps.662a.openshift.opentlc.com/product/fiveminstats',
+			  	url: 'http://bestmart-orderdashboard-bestmart.apps.9f42.openshift.opentlc.com/product/fiveminstats',
 			  	data: $(this).serialize(),
 			  	dataType: 'json',
 			  	success: function (data) {
@@ -262,7 +262,7 @@
 		  	var MAXSHOWAMT = 10000;
 			  $.ajax({
 			  	type: 'GET',
-			  	url: 'http://bestmart-partners-bestmart.apps.662a.openshift.opentlc.com/partners/location/'+locationid,
+			  	url: 'http://bestmart-partners-bestmart.apps.9f42.openshift.opentlc.com/partners/location/'+locationid,
 			  	data: $(this).serialize(),
 			  	dataType: 'json',
 			  	success: function (data) {
@@ -292,11 +292,11 @@
 			function callChannelChart(channelname) {
 				var c3ChartDefaults = patternfly.c3ChartDefaults();
 				
-				var channelUrl = 'http://bestmart-orderdashboard-bestmart.apps.662a.openshift.opentlc.com/product/channel';
+				var channelUrl = 'http://bestmart-orderdashboard-bestmart.apps.9f42.openshift.opentlc.com/product/channel';
 				var channelTitleId = '#storewebtitle';
 				var channelTitle = 'Store, Website and Tigers';
 				if("fivemins" == channelname){
-					channelUrl = 'http://bestmart-fivemins-bestmart.apps.662a.openshift.opentlc.com/fivemins/channel';
+					channelUrl = 'http://bestmart-fivemins-bestmart.apps.9f42.openshift.opentlc.com/fivemins/channel';
 					channelTitleId = '#fivemintitle';
 					channelTitle = 'Five Minutes Pit Stop';
 				}
