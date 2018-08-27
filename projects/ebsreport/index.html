@@ -62,51 +62,6 @@
 		<div id="line-chart-3" class="line-chart-pf"></div>
 		
 		
-		<h1>Partner Overview</h1>
-		<div class="container-fluid container-cards-pf">
-		
-        <div class="row row-cards-pf">
-        	<div class="col-xs-6 col-sm-4 col-md-4">
-	            <div class="card-pf">
-							  <div class="card-pf-heading">
-							    <h2 class="card-pf-title">
-							      Gameworld Distributor
-							    </h2>
-							  </div>
-							  <div class="card-pf-body" id="partnerA" />
-							</div>
-	        </div><!-- /col -->
-	      </div><!-- /row -->
-          
-        <div class="row row-cards-pf">
-          <div class="col-xs-6 col-sm-4 col-md-4">
-            <div class="card-pf">
-						  <div class="card-pf-heading">
-						    <h2 class="card-pf-title">
-						      Tyxon Foods Inc
-						    </h2>
-						  </div>
-						  <div class="card-pf-body" id="partnerB" />
-						</div>
-          </div><!-- /col -->
-        </div><!-- /row -->
-        
-        <div class="row row-cards-pf">  
-          <div class="col-xs-6 col-sm-4 col-md-4">
-            <div class="card-pf">
-						  <div class="card-pf-heading">
-						    <h2 class="card-pf-title">
-						      Red Dot Electric Co.
-						    </h2>
-						  </div>
-						  <div class="card-pf-body" id="partnerC" />
-						</div>
-          </div><!-- /col -->	
-        </div><!-- /row -->	
-	        
-       
-		</div>
-
 		<BR/>
 		<BR/>
 		   
@@ -138,7 +93,7 @@
 	  
 			  $.ajax({
 			  	type: 'GET',
-			  	url: 'http://bestmart-orderdashboard-bestmart.apps.9f42.openshift.opentlc.com/product/fiveminstats',
+			  	url: 'http://bestmart-orderdashboard-mikebestmart.apps.9f42.openshift.opentlc.com/product/fiveminstats',
 			  	data: $(this).serialize(),
 			  	dataType: 'json',
 			  	success: function (data) {
@@ -201,7 +156,7 @@
 			function callChannelChart(channelname) {
 				var c3ChartDefaults = patternfly.c3ChartDefaults();
 				
-				var channelUrl = 'http://bestmart-orderdashboard-bestmart.apps.9f42.openshift.opentlc.com/product/channel';
+				var channelUrl = 'http://bestmart-orderdashboard-mikebestmart.apps.9f42.openshift.opentlc.com/product/channel';
 				var channelTitleId = '#storewebtitle';
 				var channelTitle = 'Store, Website and Tigers';
 				if("fivemins" == channelname){
@@ -292,9 +247,7 @@
 			callChannelChart("fivemins");
 			
 			callLineChart();
-			callPartnerChart('A');
-			callPartnerChart('B');
-			callPartnerChart('C');
+			
 			//setTimeout(function () { location.reload(1); }, 5000);
 		});
 	</script>
